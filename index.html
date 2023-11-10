@@ -12,18 +12,24 @@
     <main>
         <div class="main-item" id="title-switch">
             <span id="title">TODO</span>
-            <img src="./icon-sun.svg" alt="" id="theme-icon">
+            <img src="ignore/icon-sun.svg" alt="" id="theme-icon">
         </div>
         <div class="main-item todo-item" id="todo-maker">
-            <label id="check-label">
-                <input type="checkbox" name="check" id="checkbox">
+            <label class="check-label">
+                <input type="checkbox" name="check" class="checkbox">
                 <div class="custom-check"></div>
             </label>
             <input type="text" name="chore" class="chore-name" autocomplete="off" placeholder="Create a new todo...">
         </div>
         <div class="main-item" id="todo-list">
-            <div class="list-item"></div>
-            <div id="list-management" class="no-items">
+            <div class="list-item">
+                <label class="check-label">
+                    <input type="checkbox" name="check" class="checkbox">
+                    <div class="custom-check"></div>
+                </label>
+                <span class="chore-name checked">Finish the todo web app</span>
+            </div>
+            <div id="list-management" class="with-items">
                 <div class="management-item">
                     <button id="many-left"><span id="number-left">5</span> items left</button>
                 </div>
