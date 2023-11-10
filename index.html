@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <title>Todo Webapp</title>
+</head>
+<body>
+    <header></header>
+    <div id="background"></div>
+    <main>
+        <div class="main-item" id="title-switch">
+            <span id="title">TODO</span>
+            <img src="./icon-sun.svg" alt="" id="theme-icon">
+        </div>
+        <div class="main-item todo-item" id="todo-maker">
+            <label id="check-label">
+                <input type="checkbox" name="check" id="checkbox">
+                <div class="custom-check"></div>
+            </label>
+            <input type="text" name="chore" class="chore-name" autocomplete="off" placeholder="Create a new todo...">
+        </div>
+        <div class="main-item" id="todo-list">
+            <div class="list-item"></div>
+            <div id="list-management" class="no-items">
+                <div class="management-item">
+                    <button id="many-left"><span id="number-left">5</span> items left</button>
+                </div>
+                <div class="management-item" id="filters">
+                    <button class="list-filter">All</button>
+                    <button class="list-filter">Active</button>
+                    <button class="list-filter">Completed</button>
+                </div>
+                <button class="management-item" id="reset-done">Clear Completed</button>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
