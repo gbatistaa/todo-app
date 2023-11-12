@@ -15,11 +15,14 @@
             <img src="ignore/icon-sun.svg" alt="" id="theme-icon">
         </div>
         <div class="main-item todo-item" id="todo-maker">
-            <label class="check-label">
-                <input type="checkbox" name="check" class="checkbox">
-                <div class="custom-check"></div>
-            </label>
-            <input type="text" name="chore" class="chore-name" autocomplete="off" placeholder="Create a new todo...">
+            <div id="div-aux">
+                <label class="check-label">
+                    <input type="checkbox" name="check" class="checkbox">
+                    <div class="custom-check"></div>
+                </label>
+                <input type="text" name="chore" class="chore-name not-checked" autocomplete="off" placeholder="Create a new todo...">
+            </div>
+            <button type="button" id="create-button">Create chore</button>
         </div>
         <div class="main-item" id="todo-list">
             <div class="list-item">
@@ -27,11 +30,18 @@
                     <input type="checkbox" name="check" class="checkbox">
                     <div class="custom-check"></div>
                 </label>
-                <span class="chore-name checked">Finish the todo web app</span>
+                <input class="chore-name not-checked" value="Finish the todo-list Webapp">
+            </div>
+            <div class="list-item">
+                <label class="check-label">
+                    <input type="checkbox" name="check" class="checkbox">
+                    <div class="custom-check"></div>
+                </label>
+                <input class="chore-name not-checked" value="Finish the todo-list Webapp">
             </div>
             <div id="list-management" class="with-items">
                 <div class="management-item">
-                    <button id="many-left"><span id="number-left">5</span> items left</button>
+                    <button id="many-left"><span id="number-left">0</span> items left</button>
                 </div>
                 <div class="management-item" id="filters">
                     <button class="list-filter">All</button>
