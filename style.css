@@ -49,7 +49,6 @@ main {
     margin-bottom: 3rem;
     width: 100%;
     display: flex;
-    align-items: center;
     justify-content: space-between;
 }
 
@@ -65,27 +64,48 @@ main {
     width: auto;
 }
 
-#todo-maker, #todo-maker label {
+#todo-maker, #todo-maker label, #div-aux {
     border-radius: 5px;
 }
 
-.todo-item, .list-item {
+button#create-button {
     height: 3.7rem;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    background-color: hsl(235, 24%, 19%);
+    width: 15%;
+    border: none;
+    position: absolute;
+    z-index: 0;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    cursor: pointer;
+    font-weight: 400;
+    color: #c9cde8;
+    background-color: transparent;
+    transition: 0.15s ease-out;
 }
 
-label {
+button#create-button:hover {
+    background-color: #333651;
+
+}
+
+.todo-item, .list-item, #div-aux {
+    height: 3.7rem;
+    min-height: 3.7rem;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    background-color: #26283d;
+}
+
+label.check-label {
     height: 100%;
     width: 18%;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: hsl(235, 24%, 19%);
     cursor: pointer;
+    border-radius: 5px;
+    background-color: #26283d;
 }
 
 .checkbox  {
@@ -98,6 +118,9 @@ label {
     width: 4.3%;
     border-radius: 50%;
     border: #787b91 solid 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: absolute;
     z-index: 3;
 }
@@ -106,9 +129,7 @@ label.check-label:hover > .custom-check {
     height: 4.3%;
     width: 4.3%;
     border-radius: 50%;
-    border: none;
-    background-clip: padding-box ;
-    background-image: linear-gradient(to right, #57ddff4a, #bf59f252)
+    border: #e3e4f2 solid 2px;
 }
 
 label.check-label input:checked + .custom-check {
@@ -120,12 +141,12 @@ label.check-label input:checked + .custom-check {
     background: linear-gradient(45deg, rgba(87,221,255,1) 0%, rgba(191,89,242,1) 100%);
 }
 
-label.check-label:hover input:checked + .custom-check {
-    border: none
+label.check-label input:checked + .custom-check::after {
+    content: url(./ignore/icon-check.svg);
 }
 
-.checked {
-    color: #38394d;
+label.check-label:hover input:checked + .custom-check {
+    border: none
 }
 
 .chore-name {
@@ -135,10 +156,18 @@ label.check-label:hover input:checked + .custom-check {
     outline-style: none;
     font-size: 18px;
     font-weight: 400;
-    color:hsl(234, 39%, 85%);
     display: flex;
     align-items: center;
+    padding-right: 5%;
     background-color: transparent;
+}
+
+.not-checked {
+    color:#c9cde8;
+}
+
+.checked {
+    color: #38394d;
 }
 
 input::placeholder {
@@ -154,7 +183,16 @@ input::placeholder {
     border-radius: 5px;
 }
 
-#list-management.with-items{
+.list-item {
+    border-bottom: 0.5px solid #38394d;
+}
+
+.list-item:first-child {
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+}
+
+#list-management {
     height: 3rem;
     width: 100%;
     display: flex;
@@ -162,21 +200,16 @@ input::placeholder {
     justify-content: space-around;
     font-weight: 900;
     font-size: 13px;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
     background-color: hsl(235, 24%, 19%);
 }
 
 #list-management.no-items{
-    height: 3rem;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    font-weight: 900;
-    font-size: 13px;
     border-radius: 5px;
-    background-color: hsl(235, 24%, 19%);
+}
+
+#list-management.with-items {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
 .management-item {
