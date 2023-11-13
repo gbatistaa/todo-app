@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'Josefin';
-    src: url(ignore/JosefinSans-Regular.ttf);
+    src: url(./JosefinSans-Regular.ttf);
 }
 
 * {
@@ -22,7 +22,7 @@ body {
 header {
     height: 35vh;
     width: 100%;
-    background-image: url(ignore/bg-desktop-dark.jpg);
+    background-image: url(./bg-desktop-dark.jpg);
     background-position: 50% 50%;
     background-size: cover;
     position: relative;
@@ -142,7 +142,7 @@ label.check-label input:checked + .custom-check {
 }
 
 label.check-label input:checked + .custom-check::after {
-    content: url(./ignore/icon-check.svg);
+    content: url(./icon-check.svg);
 }
 
 label.check-label:hover input:checked + .custom-check {
