@@ -24,6 +24,17 @@ const removeClass = (className) => (element) => {
     element.classList.remove(className);
 }
 
+// Auxiliar function to transform an HTMLCollection in an array:
+
+const arrayMaker = (collection) => {
+    let array = [];
+    for (let i = 0; i < collection.length; i++) {
+        if (collection[i].id !== 'template') {
+            array.push(collection[i]);
+        }
+    }
+    return array;
+}
 // Funtion to add a new item on the list: 
 
 const addTodo = () => {
@@ -38,8 +49,6 @@ const addTodo = () => {
     } else {
         newTodo.children[1].value = 'Untitled';
     }
-    removeClass('no-items')(listManagement);
-    addClass('with-items')(listManagement);
     newTodo.id = '';
     todoList.appendChild(newTodo);
 }
@@ -81,9 +90,10 @@ const showAll = () => {
         const item = listItems[i];
         removeClass('no-display')(item);
     };
+    hasItems();
 };
 
-// Funtion to display only the todos that are still not done:
+// Function to display only the todos that are still not done:
 
 const showActive = () => {
     for (let i = 0; i < listItems.length; i++) {
@@ -95,9 +105,10 @@ const showActive = () => {
             removeClass('no-display')(item);
         };
     };
+    hasItems()
 };
 
-// Funtion to display only the todos that are already done:
+// Function to display only the todos that are already done:
 
 const showCompleted = () => {
     for (let i = 0; i < listItems.length; i++) {
@@ -109,13 +120,41 @@ const showCompleted = () => {
             removeClass('no-display')(item);
         };
     };
-}
+    hasItems();
+};
 
-const filteredAddEvent = (element) => {
-    if (element.nodeType === 1 && element.classList.contains('not-functional') === false) {
-        element.addEventListener('click', manyLeft)
+// Function to change estilization of the list management if there is or not elements on the list:
+
+
+const hasItems = () => {
+    const todosArray = arrayMaker(listItems);
+    console.log(todosArray);
+    if (todosArray.length === 0) {
+        addClass('no-items')(listManagement);
+        console.log(listManagement)
+    } else {
+        const noneOnDisplay = () => {
+            let count = 0;
+            for (let index = 0; index < todosArray.length; index++) {
+                const element = todosArray[index];
+                if (element.style.display === 'none') count++;
+            }
+            if (count === 0) return false // Means there is at least one element on display
+            else return true // Means there isn't a single element on display
+        }
+        if (noneOnDisplay() === true) {
+            listManagement.className = 'main-item';
+        } else if (noneOnDisplay() === false){
+            listManagement.className = 'main-item no-items';
+        }
     }
 }
+
+// The addition of events in HTML elements:
+
+all.addEventListener('click', showAll);
+active.addEventListener('click', showActive);
+completed.addEventListener('click', showCompleted);
 
 createTodo.addEventListener('click', (ev) => {
     addTodo();
@@ -127,4 +166,4 @@ window.addEventListener('keyup', (ev) => {
         addTodo();
         manyLeft();
     }
-})
+});
