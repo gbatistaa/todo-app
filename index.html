@@ -12,7 +12,7 @@
     <main>
         <div class="main-item" id="title-switch">
             <span id="title">TODO</span>
-            <img src="icon-sun.svg" alt="theme-icon" id="theme-icon">
+            <img src="items/icon-sun.svg" alt="theme-icon" id="theme-icon">
         </div>
         <div class="main-item todo-item" id="todo-maker">
             <div id="div-aux">
@@ -21,7 +21,7 @@
                     <div class="custom-check"></div>
                 </label>
                 <input type="text" name="chore" class="chore-name not-checked" 
-                autocomplete="off" placeholder="Create a new todo..." value="todo">
+                autocomplete="off" placeholder="Create a new todo..." value="" id="main-input">
             </div>
             <button type="button" id="create-button">Create chore</button>
         </div>
@@ -34,14 +34,14 @@
                 <input class="chore-name not-checked" value="Finish the todo-list Webapp">
             </div>
         </div>
-        <div id="list-management" class="main-item with-items">
+        <div id="list-management" class="main-item">
             <div class="management-item">
                 <button id="many-left"><span id="number-left">0</span> items left</button>
             </div>
             <div class="management-item" id="filters">
-                <button class="list-filter">All</button>
-                <button class="list-filter">Active</button>
-                <button class="list-filter">Completed</button>
+                <button class="list-filter" type="button">All</button>
+                <button class="list-filter" type="button">Active</button>
+                <button class="list-filter" type="button">Completed</button>
             </div>
             <button class="management-item" id="clear-done">Clear Completed</button>
         </div>
