@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'Josefin';
-    src: url(./JosefinSans-Regular.ttf);
+    src: url(items/JosefinSans-Regular.ttf);
 }
 
 * {
@@ -22,7 +22,7 @@ body {
 header {
     height: 35vh;
     width: 100%;
-    background-image: url(./bg-desktop-dark.jpg);
+    background-image: url(items/bg-desktop-dark.jpg);
     background-position: 50% 50%;
     background-size: cover;
     position: relative;
@@ -65,7 +65,7 @@ main {
 }
 
 #todo-maker, #todo-maker label, #div-aux {
-    border-radius: 5px;
+    border-radius: 7px;
 }
 
 button#create-button {
@@ -74,8 +74,8 @@ button#create-button {
     border: none;
     position: absolute;
     z-index: 0;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
+    border-top-right-radius: 7px;
+    border-bottom-right-radius: 7px;
     cursor: pointer;
     font-weight: 400;
     color: #c9cde8;
@@ -142,7 +142,7 @@ label.check-label input:checked + .custom-check {
 }
 
 label.check-label input:checked + .custom-check::after {
-    content: url(./icon-check.svg);
+    content: url(items/icon-check.svg);
 }
 
 label.check-label:hover input:checked + .custom-check {
@@ -189,8 +189,8 @@ input::placeholder {
 }
 
 .list-item:first-child {
-    border-top-right-radius: 5px;
-    border-top-left-radius: 5px;
+    border-top-right-radius: 7px;
+    border-top-left-radius: 7px;
 }
 
 #list-management {
@@ -202,15 +202,15 @@ input::placeholder {
     font-weight: 900;
     font-size: 13px;
     background-color: hsl(235, 24%, 19%);
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
 }
 
-#list-management.no-items{
-    border-radius: 5px;
-}
-
-#list-management.with-items {
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
+#list-management.no-items {
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
 }
 
 .management-item {
@@ -238,4 +238,12 @@ input::placeholder {
     display: flex;
     justify-content: space-between;
     width: 9rem;
+}
+
+.no-display {
+    display: none;
+}
+
+.display {
+    display:inline;
 }
