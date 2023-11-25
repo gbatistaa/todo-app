@@ -37,8 +37,6 @@ const arrayMaker = (collection) => {
     return array;
 }
 
-const todosArray = arrayMaker(listItems);
-
 // Funtion to add a new item on the list with pre-settings: 
 
 const addTodo = () => {
@@ -46,7 +44,9 @@ const addTodo = () => {
     const newTodo = templateItem.cloneNode(true);
     const checkBox = newTodo.children[0].children[0];
     checkBox.checked = false;
-    checkBox.addEventListener('click', manyLeft)
+    checkBox.addEventListener('click', function () {
+        manyLeft(visibleItems);
+    })
     if (userTodoName !== '') {
         newTodo.children[1].value = userTodoName;
         todoMaker.children[1].value = ''
@@ -55,13 +55,15 @@ const addTodo = () => {
     }
     newTodo.id = '';
     todoList.appendChild(newTodo);
+    showAll();
 }
 
 // New function to calculate how many todos are still left:
 
-const manyLeft = function () {
+const manyLeft = function (collection) {
     let howMany = 0;
-    for (const item of listItems) {
+    const list = arrayMaker(collection);
+    for (const item of list) {
         try {
             if (item.classList.contains('list-item')) {
                 const check = item.children[0].children[0];
@@ -71,9 +73,10 @@ const manyLeft = function () {
             console.log(error)
         }
     }
+    
     itemsLeft.innerHTML = howMany.toString();
 };
-manyLeft();
+manyLeft(listItems);
 
 // Variables that stores each filter button element:
 
@@ -86,12 +89,14 @@ const completed = filters[2];
 let visibleItems = [];
 
 const hasVisibleItems = () => {
-    if (visibleItems.length > 0) listManagement.className = 'main-item';
-    else listManagement.className = 'main-item no-items';
+    if (visibleItems.length > 0) {
+        listManagement.className = 'main-item';
+        for (const item of visibleItems) removeClass('on-top')(item);
+        addClass('on-top')(visibleItems[0]);
+    } else listManagement.className = 'main-item no-items';
+    
 }
 // Function to show again all of the todos:
-
-
 
 const showAll = () => {
     
@@ -99,11 +104,14 @@ const showAll = () => {
 
     for (let i = 0; i < listItems.length; i++) {
         const item = listItems[i];
-        removeClass('no-display')(item);
-        visibleItems.push(item);
+        if (item.id !== 'template') {
+            removeClass('no-display')(item);
+            visibleItems.push(item);
+        }
     };
     
     hasVisibleItems();
+    manyLeft(visibleItems);
 
 };
 
@@ -114,17 +122,20 @@ const showActive = () => {
     visibleItems = [];
 
     for (let i = 0; i < listItems.length; i++) {
-      const item = listItems[i];
-      const checkbox = item.children[0].children[0];
-        if (item.nodeType === 1 && checkbox.checked === false) {
-            removeClass('no-display')(item);
-            visibleItems.push(item);
-        } else {
-            addClass('no-display')(item);
-      }
+        const item = listItems[i];
+        const checkbox = item.children[0].children[0];
+        if (item.id !== 'template') {           
+            if (item.nodeType === 1 && checkbox.checked === false) {
+                removeClass('no-display')(item);
+                visibleItems.push(item);
+            } else {
+                addClass('no-display')(item);
+            }
+        }
     }
 
     hasVisibleItems();
+    manyLeft(visibleItems);
 
   };
 
@@ -137,26 +148,37 @@ const showCompleted = () => {
     for (let i = 0; i < listItems.length; i++) {
         const item = listItems[i];
         const checkbox = item.children[0].children[0];
-        if (item.nodeType === 1 && checkbox.checked === false) {
-            addClass('no-display')(item);
-        } else {
-            removeClass('no-display')(item);
-            visibleItems.push(item);
-        };
+        if (item.id !== 'template') {
+            if (item.nodeType === 1 && checkbox.checked === false) {
+                addClass('no-display')(item);
+            } else {
+                removeClass('no-display')(item);
+                visibleItems.push(item);
+            };
+        }
     };
 
     hasVisibleItems();
+    manyLeft(visibleItems);
 
 };
 
 // Function to delete the completed list items:
 
 const clearCompleted = () => {
+
+    visibleItems = [];
+
     const list = arrayMaker(listItems);
     for (const item of list) {
         const checkbox = item.children[0].children[0];
         if (checkbox.checked) item.remove();
+        else visibleItems.push(item);
     }
+    
+    hasVisibleItems();
+    manyLeft(visibleItems);
+
 }
 
 // The addition of events in HTML elements:
@@ -168,12 +190,12 @@ clearDone.addEventListener('click', clearCompleted);
 
 createTodo.addEventListener('click', (ev) => {
     addTodo();
-    manyLeft();
+    manyLeft(visibleItems);
 });
 
 window.addEventListener('keyup', (ev) => {
     if (ev.key === 'Enter') {
         addTodo();
-        manyLeft();
+        manyLeft(visibleItems);
     }
 });
