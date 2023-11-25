@@ -55,19 +55,13 @@ const addTodo = () => {
 
 // New function to calculate how many todos are still left:
 
-const manyLeft = () => {
+const manyLeft = function () {
     let howMany = 0;
     for (const item of listItems) {
         try {
             if (item.classList.contains('list-item')) {
-                try {
-                    const check = item.children[0].children[0];
-                    if (check.checked === false && item.id !== 'template') {
-                        howMany++;
-                    }
-                } catch (error) {
-                    console.log(error);
-                }
+                const check = item.children[0].children[0];
+                if (check.checked === false && item.id !== 'template') howMany++;
             }
         } catch (error) {
             console.log(error)
@@ -99,10 +93,10 @@ const showActive = () => {
     for (let i = 0; i < listItems.length; i++) {
         const item = listItems[i];
         const checkbox = item.children[0].children[0];
-        if (item.nodeType === 1 && checkbox.checked) {
-            addClass('no-display')(item);
-        } else {
+        if (item.nodeType === 1 && checkbox.checked === false) {
             removeClass('no-display')(item);
+        } else {
+            addClass('no-display')(item);
         };
     };
     hasItems()
@@ -128,24 +122,29 @@ const showCompleted = () => {
 
 const hasItems = () => {
     const todosArray = arrayMaker(listItems);
-    console.log(todosArray);
+    //console.log(todosArray);
+
+    // Local function to verify if there is list elements on display:
+
+    const noneOnDisplay = () => {
+        let count = 0;
+        for (let index = 0; index < todosArray.length; index++) {
+            const element = todosArray[index];
+            if (element.classList[1] === "no-display") count++;
+        }
+        if (count === 0) return false // Means there is at least one element on display
+        else return true // Means there isn't a single element on display
+    }
+
+    const displayResult = noneOnDisplay();
+
     if (todosArray.length === 0) {
         addClass('no-items')(listManagement);
-        console.log(listManagement)
     } else {
-        const noneOnDisplay = () => {
-            let count = 0;
-            for (let index = 0; index < todosArray.length; index++) {
-                const element = todosArray[index];
-                if (element.style.display === 'none') count++;
-            }
-            if (count === 0) return false // Means there is at least one element on display
-            else return true // Means there isn't a single element on display
-        }
-        if (noneOnDisplay() === true) {
-            listManagement.className = 'main-item';
-        } else if (noneOnDisplay() === false){
+        if (displayResult) {
             listManagement.className = 'main-item no-items';
+        } else {
+            listManagement.className = 'main-item';
         }
     }
 }
