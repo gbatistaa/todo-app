@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./style.css" id="style">
     <title>Todo Webapp</title>
 </head>
 <body>
@@ -32,9 +32,10 @@
                     <div class="custom-check"></div>
                 </label>
                 <input class="chore-name not-checked" value="Finish the todo-list Webapp">
+                <button type="button" class="delete-button"></button>
             </div>
         </div>
-        <div id="list-management" class="main-item">
+        <div id="list-management" class="main-item no-items">
             <div class="management-item">
                 <button id="many-left"><span id="number-left">0</span> items left</button>
             </div>
