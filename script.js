@@ -13,6 +13,7 @@ const listManagement = document.getElementById('list-management');
 const itemsLeft = document.getElementById('number-left');
 const filters = document.getElementsByClassName('list-filter');
 const clearDone = document.getElementById('clear-done');
+const deleteButtons = document.getElementsByClassName('delete-button');
 
 // Auxiliar funtion to add classes in elements:
 
@@ -151,10 +152,13 @@ const showCompleted = () => {
 // Function to delete the completed list items:
 
 const clearCompleted = () => {
-    for (const element of todosArray) {
-        console.log(element);
+    const list = arrayMaker(listItems);
+    for (const item of list) {
+        const checkbox = item.children[0].children[0];
+        if (checkbox.checked) item.remove();
     }
 }
+
 // The addition of events in HTML elements:
 
 all.addEventListener('click', showAll);
