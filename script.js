@@ -35,7 +35,7 @@ const arrayMaker = (collection) => {
     }
     return array;
 }
-// Funtion to add a new item on the list: 
+// Funtion to add a new item on the list with pre-settings: 
 
 const addTodo = () => {
     const userTodoName = userInput.value;
@@ -122,19 +122,20 @@ const showCompleted = () => {
 
 const hasItems = () => {
     const todosArray = arrayMaker(listItems);
-    //console.log(todosArray);
 
     // Local function to verify if there is list elements on display:
 
     const noneOnDisplay = () => {
         let count = 0;
         for (let index = 0; index < todosArray.length; index++) {
-            const element = todosArray[index];
-            if (element.classList[1] === "no-display") count++;
+          const element = todosArray[index];
+          const checkbox = element.querySelector('.checkbox');
+          if (element.classList.contains('no-display') === false || checkbox.checked) {
+            count++;
+          }
         }
-        if (count === 0) return false // Means there is at least one element on display
-        else return true // Means there isn't a single element on display
-    }
+        return count === 0; // Returns true if there are no visible items
+      };
 
     const displayResult = noneOnDisplay();
 
