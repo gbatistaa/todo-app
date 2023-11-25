@@ -35,6 +35,9 @@ const arrayMaker = (collection) => {
     }
     return array;
 }
+
+const todosArray = arrayMaker(listItems);
+
 // Funtion to add a new item on the list with pre-settings: 
 
 const addTodo = () => {
@@ -77,34 +80,59 @@ const all = filters[0];
 const active = filters[1];
 const completed = filters[2];
 
+// Function to change estilization of the list management if there is or not elements on the list:
+
+let visibleItems = [];
+
+const hasVisibleItems = () => {
+    if (visibleItems.length > 0) listManagement.className = 'main-item';
+    else listManagement.className = 'main-item no-items';
+}
 // Function to show again all of the todos:
 
+
+
 const showAll = () => {
+    
+    visibleItems = [];
+
     for (let i = 0; i < listItems.length; i++) {
         const item = listItems[i];
         removeClass('no-display')(item);
+        visibleItems.push(item);
     };
-    hasItems();
+    
+    hasVisibleItems();
+
 };
 
 // Function to display only the todos that are still not done:
 
 const showActive = () => {
+
+    visibleItems = [];
+
     for (let i = 0; i < listItems.length; i++) {
-        const item = listItems[i];
-        const checkbox = item.children[0].children[0];
+      const item = listItems[i];
+      const checkbox = item.children[0].children[0];
         if (item.nodeType === 1 && checkbox.checked === false) {
             removeClass('no-display')(item);
+            visibleItems.push(item);
         } else {
             addClass('no-display')(item);
-        };
-    };
-    hasItems()
-};
+      }
+    }
+
+    hasVisibleItems();
+
+  };
 
 // Function to display only the todos that are already done:
 
 const showCompleted = () => {
+
+    visibleItems = [];
+
     for (let i = 0; i < listItems.length; i++) {
         const item = listItems[i];
         const checkbox = item.children[0].children[0];
@@ -112,49 +140,27 @@ const showCompleted = () => {
             addClass('no-display')(item);
         } else {
             removeClass('no-display')(item);
+            visibleItems.push(item);
         };
     };
-    hasItems();
+
+    hasVisibleItems();
+
 };
 
-// Function to change estilization of the list management if there is or not elements on the list:
+// Function to delete the completed list items:
 
-
-const hasItems = () => {
-    const todosArray = arrayMaker(listItems);
-
-    // Local function to verify if there is list elements on display:
-
-    const noneOnDisplay = () => {
-        let count = 0;
-        for (let index = 0; index < todosArray.length; index++) {
-          const element = todosArray[index];
-          const checkbox = element.querySelector('.checkbox');
-          if (element.classList.contains('no-display') === false || checkbox.checked) {
-            count++;
-          }
-        }
-        return count === 0; // Returns true if there are no visible items
-      };
-
-    const displayResult = noneOnDisplay();
-
-    if (todosArray.length === 0) {
-        addClass('no-items')(listManagement);
-    } else {
-        if (displayResult) {
-            listManagement.className = 'main-item no-items';
-        } else {
-            listManagement.className = 'main-item';
-        }
+const clearCompleted = () => {
+    for (const element of todosArray) {
+        console.log(element);
     }
 }
-
 // The addition of events in HTML elements:
 
 all.addEventListener('click', showAll);
 active.addEventListener('click', showActive);
 completed.addEventListener('click', showCompleted);
+clearDone.addEventListener('click', clearCompleted);
 
 createTodo.addEventListener('click', (ev) => {
     addTodo();
