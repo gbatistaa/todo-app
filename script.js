@@ -14,6 +14,7 @@ const itemsLeft = document.getElementById('number-left');
 const filters = document.getElementsByClassName('list-filter');
 const clearDone = document.getElementById('clear-done');
 const deleteButtons = document.getElementsByClassName('delete-button');
+const filtersMobile = document.getElementsByClassName('filter-mobile');
 
 // Auxiliar funtion to add classes in elements:
 
@@ -85,6 +86,10 @@ manyLeft(listItems);
 const all = filters[0];
 const active = filters[1];
 const completed = filters[2];
+
+const allMobile = filtersMobile[0];
+const activeMobile = filtersMobile[1];
+const completedMobile = filtersMobile[2];
 
 // Function to change estilization of the list management if there is or not elements on the list:
 
@@ -191,6 +196,10 @@ all.addEventListener('click', showAll);
 active.addEventListener('click', showActive);
 completed.addEventListener('click', showCompleted);
 clearDone.addEventListener('click', clearCompleted);
+
+allMobile.addEventListener('click', showAll);
+activeMobile.addEventListener('click', showActive);
+completedMobile.addEventListener('click', showCompleted);
 
 createTodo.addEventListener('click', (ev) => {
     const createdNode = addTodo();
