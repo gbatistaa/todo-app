@@ -218,11 +218,15 @@ input::placeholder {
     justify-content: space-around;
     font-weight: 900;
     font-size: 13px;
-    background-color: hsl(235, 24%, 19%);
+    background-color: #26283d;
     border-bottom-left-radius: 7px;
     border-bottom-right-radius: 7px;
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
+}
+
+#filters-mobile {
+    display: none;
 }
 
 #list-management.no-items {
@@ -263,4 +267,81 @@ input::placeholder {
 
 .display {
     display:inline;
+}
+
+@media (max-width: 450px) {
+    body {
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    #background {
+        height: 70vh;
+    }
+
+    header {
+        height: 30vh;
+        background-image: url(items/bg-mobile-dark.jpg);
+    }
+
+    #title {
+        font-size: 1.8rem;
+    }
+
+    main {
+        height: 70%;
+        width: 85%;
+        position: absolute;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        margin-top: 12%;
+    }
+
+    .main-item {margin-bottom: 2.4rem;}
+
+    label.check-label {width: 25%;}
+
+    label.check-label:hover > .custom-check {width: 6.5%;}
+
+    .custom-check {width: 6.5%;}
+
+    label.check-label input:checked + .custom-check {width: 6.5%;}
+
+    #list-management {
+        margin-bottom: 0.8rem;
+    }
+
+    .management-item#filters{
+        display: none;
+    }
+
+    #filters-mobile {
+        min-height: 3rem;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        font-weight: 900;
+        font-size: 13px;
+        background-color: #26283d;
+        border-radius: 7px;
+    }
+
+    #filters-mobile :nth-child(1), 
+    #filters-mobile :nth-child(2),
+    #filters-mobile :nth-child(3) {
+        height: 100%;
+        min-width: 5rem;
+        cursor: pointer;
+        border: none;
+        background-color: transparent;
+        color: #787b91;
+        font-weight: 700;
+        font-size: 0.9rem;
+    }
 }
