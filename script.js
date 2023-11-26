@@ -213,7 +213,21 @@ createTodo.addEventListener('click', (ev) => {
 
 window.addEventListener('keyup', (ev) => {
     if (ev.key === 'Enter') {
-        addTodo();
+        const createdNode = addTodo();
+        const deleteButton = createdNode.children[2];
         manyLeft(visibleItems);
+        deleteButton.addEventListener('click', function() {
+
+            visibleItems = [];
+            const list = arrayMaker(listItems);
+
+            for (const item of list) {
+                if (!this.parentElement.isSameNode(item)) visibleItems.push(item);
+            }
+
+            manyLeft(visibleItems);
+            hasVisibleItems();
+            this.parentElement.remove();
+        });
     }
 });
