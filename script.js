@@ -56,6 +56,8 @@ const addTodo = () => {
     newTodo.id = '';
     todoList.appendChild(newTodo);
     showAll();
+
+    return newTodo;
 }
 
 // New function to calculate how many todos are still left:
@@ -173,9 +175,11 @@ const clearCompleted = () => {
     for (const item of list) {
         const checkbox = item.children[0].children[0];
         if (checkbox.checked) item.remove();
-        else visibleItems.push(item);
+        else if (item.classList.contains('no-display') === false) {
+            visibleItems.push(item);
+        }
     }
-    
+
     hasVisibleItems();
     manyLeft(visibleItems);
 
@@ -189,8 +193,22 @@ completed.addEventListener('click', showCompleted);
 clearDone.addEventListener('click', clearCompleted);
 
 createTodo.addEventListener('click', (ev) => {
-    addTodo();
+    const createdNode = addTodo();
+    const deleteButton = createdNode.children[2];
     manyLeft(visibleItems);
+    deleteButton.addEventListener('click', function() {
+
+        visibleItems = [];
+        const list = arrayMaker(listItems);
+
+        for (const item of list) {
+            if (!this.parentElement.isSameNode(item)) visibleItems.push(item);
+        }
+
+        manyLeft(visibleItems);
+        hasVisibleItems();
+        this.parentElement.remove();
+    });
 });
 
 window.addEventListener('keyup', (ev) => {
