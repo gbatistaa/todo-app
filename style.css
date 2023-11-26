@@ -332,9 +332,7 @@ input::placeholder {
         border-radius: 7px;
     }
 
-    #filters-mobile :nth-child(1), 
-    #filters-mobile :nth-child(2),
-    #filters-mobile :nth-child(3) {
+    .filter-mobile {
         height: 100%;
         min-width: 5rem;
         cursor: pointer;
@@ -343,5 +341,14 @@ input::placeholder {
         color: #787b91;
         font-weight: 700;
         font-size: 0.9rem;
+        transition: 0.15 ease-out;
+    }
+
+    .filter-mobile:hover {
+        color: #e3e4f2;
+    }
+
+    .delete-button::after {
+        content: url(./items/icon-cross.svg);
     }
 }
