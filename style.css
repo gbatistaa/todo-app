@@ -119,8 +119,10 @@ label.check-label {
 }
 
 .custom-check {
-    height: 4.3%;
-    width: 4.3%;
+    min-height: 21.5px;
+    min-width: 21.5px;
+    max-height: 21.5px;
+    max-width: 21.5px;
     border-radius: 50%;
     border: #787b91 solid 2px;
     display: flex;
@@ -131,15 +133,11 @@ label.check-label {
 }
 
 label.check-label:hover > .custom-check {
-    height: 4.3%;
-    width: 4.3%;
     border-radius: 50%;
     border: #e3e4f2 solid 2px;
 }
 
 label.check-label input:checked + .custom-check {
-    height: 4.3%;
-    width: 4.3%;
     border-radius: 50%;
     border: none;
     /* background: rgb(87,221,255); */
