@@ -38,7 +38,20 @@ const arrayMaker = (collection) => {
     return array;
 }
 
+// Function that brings back the previous created items inside the Local Storage:
+
+const restoreItems = () => {
+    for (const key in localStorage) {
+        if (Object.hasOwnProperty.call(localStorage, key)) {
+            const item = localStorage[key];
+            const itemSettings = JSON.parse(item);
+        }
+    }
+}
+
 // Funtion to add a new item on the list with pre-settings: 
+
+let count = 1;
 
 const addTodo = () => {
     const userTodoName = userInput.value;
@@ -56,8 +69,21 @@ const addTodo = () => {
     }
     newTodo.id = '';
     todoList.appendChild(newTodo);
-    showAll();
 
+    // Saving new List Items in the Local Storage:
+
+    localStorage.setItem(`${count}`, JSON.stringify({
+        name: newTodo.children[1].value,
+        checked: checkBox.checked
+    }));
+
+    showAll();
+    
+    restoreItems();
+
+    //console.log(localStorage);
+    
+    count ++;
     return newTodo;
 }
 
