@@ -250,18 +250,9 @@ const clearCompleted = () => {
 
 }
 
-// The addition of events in HTML elements:
+//Click event function for creating elements: 
 
-all.addEventListener('click', showAll);
-active.addEventListener('click', showActive);
-completed.addEventListener('click', showCompleted);
-clearDone.addEventListener('click', clearCompleted);
-
-allMobile.addEventListener('click', showAll);
-activeMobile.addEventListener('click', showActive);
-completedMobile.addEventListener('click', showCompleted);
-
-createTodo.addEventListener('click', (ev) => {
+const creating = () => {
     const createdNode = addTodo();
     const deleteButton = createdNode.children[2];
     manyLeft(visibleItems);
@@ -278,25 +269,23 @@ createTodo.addEventListener('click', (ev) => {
         hasVisibleItems();
         this.parentElement.remove();
     });
-});
+}
+
+// The addition of events in HTML elements:
+
+all.addEventListener('click', showAll);
+active.addEventListener('click', showActive);
+completed.addEventListener('click', showCompleted);
+clearDone.addEventListener('click', clearCompleted);
+
+allMobile.addEventListener('click', showAll);
+activeMobile.addEventListener('click', showActive);
+completedMobile.addEventListener('click', showCompleted);
+
+createTodo.addEventListener('click', creating);
 
 window.addEventListener('keyup', (ev) => {
     if (ev.key === 'Enter') {
-        const createdNode = addTodo();
-        const deleteButton = createdNode.children[2];
-        manyLeft(visibleItems);
-        deleteButton.addEventListener('click', function() {
-
-            visibleItems = [];
-            const list = arrayMaker(listItems);
-
-            for (const item of list) {
-                if (!this.parentElement.isSameNode(item)) visibleItems.push(item);
-            }
-
-            manyLeft(visibleItems);
-            hasVisibleItems();
-            this.parentElement.remove();
-        });
+        creating();
     }
 });
