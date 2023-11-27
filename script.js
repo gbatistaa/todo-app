@@ -37,16 +37,17 @@ const arrayMaker = (collection) => {
     }
     return array;
 }
+// Function to change estilization of the list management if there is or not elements on the list:
 
-// Function that brings back the previous created items inside the Local Storage:
+let visibleItems = [];
 
-const restoreItems = () => {
-    for (const key in localStorage) {
-        if (Object.hasOwnProperty.call(localStorage, key)) {
-            const item = localStorage[key];
-            const itemSettings = JSON.parse(item);
-        }
-    }
+const hasVisibleItems = () => {
+    if (visibleItems.length > 0) {
+        listManagement.className = 'main-item';
+        for (const item of visibleItems) removeClass('on-top')(item);
+        addClass('on-top')(visibleItems[0]);
+    } else listManagement.className = 'main-item no-items';
+    
 }
 
 // Funtion to add a new item on the list with pre-settings: 
@@ -60,7 +61,7 @@ const addTodo = () => {
     checkBox.checked = false;
     checkBox.addEventListener('click', function () {
         manyLeft(visibleItems);
-    })
+    });
     if (userTodoName !== '') {
         newTodo.children[1].value = userTodoName;
         todoMaker.children[1].value = ''
@@ -78,8 +79,6 @@ const addTodo = () => {
     }));
 
     showAll();
-    
-    restoreItems();
 
     //console.log(localStorage);
     
@@ -107,6 +106,53 @@ const manyLeft = function (collection) {
 };
 manyLeft(listItems);
 
+
+// Function that brings back the previous created items inside the Local Storage:
+
+const restoreItems = () => {
+    
+    visibleItems = [];
+    
+    for (const key in localStorage) {
+        if (Object.hasOwnProperty.call(localStorage, key)) {
+            const item = localStorage[key];
+            const itemSettings = JSON.parse(item);
+            const savedTodo = templateItem.cloneNode(true);
+            const checkBox = savedTodo.children[0].children[0];
+
+            savedTodo.id = '';
+            checkBox.addEventListener('click', function () {
+                manyLeft(visibleItems);
+            });
+
+            savedTodo.children[1].value = itemSettings.name;
+            const deleteButton = savedTodo.children[2];
+            deleteButton.addEventListener('click', function() {
+                
+                visibleItems = [];
+                const list = arrayMaker(listItems);
+
+                for (const item of list) {
+                    if (!this.parentElement.isSameNode(item)) visibleItems.push(item);
+                }
+                
+                manyLeft(visibleItems);
+                hasVisibleItems();
+                this.parentElement.remove();
+            });
+            todoList.appendChild(savedTodo);
+            visibleItems.push(savedTodo);
+        }
+    }
+
+    manyLeft(visibleItems);
+    hasVisibleItems();
+
+}
+restoreItems();
+
+
+
 // Variables that stores each filter button element:
 
 const all = filters[0];
@@ -117,18 +163,6 @@ const allMobile = filtersMobile[0];
 const activeMobile = filtersMobile[1];
 const completedMobile = filtersMobile[2];
 
-// Function to change estilization of the list management if there is or not elements on the list:
-
-let visibleItems = [];
-
-const hasVisibleItems = () => {
-    if (visibleItems.length > 0) {
-        listManagement.className = 'main-item';
-        for (const item of visibleItems) removeClass('on-top')(item);
-        addClass('on-top')(visibleItems[0]);
-    } else listManagement.className = 'main-item no-items';
-    
-}
 // Function to show again all of the todos:
 
 const showAll = () => {
