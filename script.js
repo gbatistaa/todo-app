@@ -124,7 +124,9 @@ const restoreItems = () => {
             //Function to remove the element of the todo list and the localStorage:
             
             deleteButton.addEventListener('click', function() {
-    
+                
+                const propsUpdate = Object.keys(localStorage).sort((a, b) => a - b);
+
                 visibleItems = [];
                 const list = arrayMaker(listItems);
                 
@@ -139,10 +141,8 @@ const restoreItems = () => {
                 // Operation to remove the todo item from the localStorage:
     
                 const todoName = itemSettings.name;
-                
-                console.log(localStorage);
-                
-                for (let index = properties[0]; index < properties[properties.length - 1] + 1; index++) {
+
+                for (let index = propsUpdate[0]; index < propsUpdate[propsUpdate.length - 1] + 1; index++) {
                     try {
                         const elementString = localStorage[index];
                         const elementObject = JSON.parse(elementString);
@@ -151,9 +151,10 @@ const restoreItems = () => {
                         
                         if (todoName === elementObject.name) {
                             localStorage.removeItem(index);
+                            break
                         }
-                    } catch (error) {
-                        console.log(error);
+                    } catch (error){
+
                     }
                     
                 }
@@ -169,6 +170,7 @@ const restoreItems = () => {
     hasVisibleItems();
     
 }
+
 restoreItems();
 
 
@@ -274,24 +276,47 @@ const clearCompleted = () => {
 
 const creating = () => {
     const createdNode = addTodo();
+    const input = createdNode.children[1];
     const checkBox = createdNode.children[0].children[0];
     const deleteButton = createdNode.children[2];
     manyLeft(visibleItems);
+    const propsUpdate = Object.keys(localStorage).sort((a, b) => a - b);
+
     deleteButton.addEventListener('click', function() {
         
+
         visibleItems = [];
         const list = arrayMaker(listItems);
         
         for (const item of list) {
-            if (!this.parentElement.isSameNode(item)) visibleItems.push(item);
+            if (!this.parentElement.isSameNode(createdNode)) visibleItems.push(item);
         }
         
         manyLeft(visibleItems);
         hasVisibleItems();
         this.parentElement.remove();
+        
+        // Operation to remove the todo item from the localStorage:
+
+        const todoName = input.value;
+
+        for (let index = propsUpdate[0]; index < propsUpdate[propsUpdate.length - 1] + 1; index++) {
+            try {
+                const elementString = localStorage[index];
+                const elementObject = JSON.parse(elementString);
+                
+                //console.log(`${todoName} | ${elementObject.name}`)
+                
+                if (todoName === elementObject.name) {
+                    localStorage.removeItem(index);
+                    break
+                }
+            } catch (error){
+                console.log(error)
+            }
+            
+        }
     });
-    
-    console.log(createdNode)
 
     // Saving new List Items in the Local Storage:
 
