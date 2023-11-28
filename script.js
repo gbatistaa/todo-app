@@ -52,16 +52,18 @@ const hasVisibleItems = () => {
 
 // Funtion to add a new item on the list with pre-settings: 
 
-let count = 1;
+let count = 0;
 
 const addTodo = () => {
     const userTodoName = userInput.value;
     const newTodo = templateItem.cloneNode(true);
     const checkBox = newTodo.children[0].children[0];
+
     checkBox.checked = false;
     checkBox.addEventListener('click', function () {
         manyLeft(visibleItems);
     });
+
     if (userTodoName !== '') {
         newTodo.children[1].value = userTodoName;
         todoMaker.children[1].value = ''
@@ -70,19 +72,9 @@ const addTodo = () => {
     }
     newTodo.id = '';
     todoList.appendChild(newTodo);
-
-    // Saving new List Items in the Local Storage:
-
-    localStorage.setItem(`${count}`, JSON.stringify({
-        name: newTodo.children[1].value,
-        checked: checkBox.checked
-    }));
-
+    
     showAll();
 
-    //console.log(localStorage);
-    
-    count ++;
     return newTodo;
 }
 
@@ -106,48 +98,52 @@ const manyLeft = function (collection) {
 };
 manyLeft(listItems);
 
-
 // Function that brings back the previous created items inside the Local Storage:
 
 const restoreItems = () => {
     
     visibleItems = [];
     
-    for (const key in localStorage) {
-        if (Object.hasOwnProperty.call(localStorage, key)) {
-            const item = localStorage[key];
-            const itemSettings = JSON.parse(item);
-            const savedTodo = templateItem.cloneNode(true);
-            const checkBox = savedTodo.children[0].children[0];
+    for (let index = 0; index < localStorage.length; index++) {
+        const item = localStorage[index];
+        const itemSettings = JSON.parse(item);
+        const savedTodo = templateItem.cloneNode(true);
+        const checkBox = savedTodo.children[0].children[0];
+        
+        savedTodo.id = '';
+        checkBox.addEventListener('click', function () {
+            manyLeft(visibleItems);
+        });
+        
+        savedTodo.children[1].value = itemSettings.name;
+        const deleteButton = savedTodo.children[2];
+        
+        //Function to remove the element of the todo list and the localStorage:
+        
+        deleteButton.addEventListener('click', function() {
 
-            savedTodo.id = '';
-            checkBox.addEventListener('click', function () {
-                manyLeft(visibleItems);
-            });
-
-            savedTodo.children[1].value = itemSettings.name;
-            const deleteButton = savedTodo.children[2];
-            deleteButton.addEventListener('click', function() {
-                
-                visibleItems = [];
-                const list = arrayMaker(listItems);
-
-                for (const item of list) {
-                    if (!this.parentElement.isSameNode(item)) visibleItems.push(item);
-                }
-                
-                manyLeft(visibleItems);
-                hasVisibleItems();
-                this.parentElement.remove();
-            });
-            todoList.appendChild(savedTodo);
-            visibleItems.push(savedTodo);
-        }
+            visibleItems = [];
+            const list = arrayMaker(listItems);
+            
+            for (const item of list) {
+                if (!this.parentElement.isSameNode(savedTodo)) visibleItems.push(item);
+            }
+            
+            manyLeft(visibleItems);
+            hasVisibleItems();
+            this.parentElement.remove();
+            
+            
+        });
+        todoList.appendChild(savedTodo);
+        visibleItems.push(savedTodo);
     }
+    
+    console.log(localStorage)
 
     manyLeft(visibleItems);
     hasVisibleItems();
-
+    
 }
 restoreItems();
 
@@ -168,7 +164,7 @@ const completedMobile = filtersMobile[2];
 const showAll = () => {
     
     visibleItems = [];
-
+    
     for (let i = 0; i < listItems.length; i++) {
         const item = listItems[i];
         if (item.id !== 'template') {
@@ -179,15 +175,15 @@ const showAll = () => {
     
     hasVisibleItems();
     manyLeft(visibleItems);
-
+    
 };
 
 // Function to display only the todos that are still not done:
 
 const showActive = () => {
-
+    
     visibleItems = [];
-
+    
     for (let i = 0; i < listItems.length; i++) {
         const item = listItems[i];
         const checkbox = item.children[0].children[0];
@@ -200,18 +196,18 @@ const showActive = () => {
             }
         }
     }
-
+    
     hasVisibleItems();
     manyLeft(visibleItems);
-
-  };
+    
+};
 
 // Function to display only the todos that are already done:
 
 const showCompleted = () => {
-
+    
     visibleItems = [];
-
+    
     for (let i = 0; i < listItems.length; i++) {
         const item = listItems[i];
         const checkbox = item.children[0].children[0];
@@ -224,18 +220,18 @@ const showCompleted = () => {
             };
         }
     };
-
+    
     hasVisibleItems();
     manyLeft(visibleItems);
-
+    
 };
 
 // Function to delete the completed list items:
 
 const clearCompleted = () => {
-
+    
     visibleItems = [];
-
+    
     const list = arrayMaker(listItems);
     for (const item of list) {
         const checkbox = item.children[0].children[0];
@@ -244,31 +240,43 @@ const clearCompleted = () => {
             visibleItems.push(item);
         }
     }
-
+    
     hasVisibleItems();
     manyLeft(visibleItems);
-
+    
 }
 
 //Click event function for creating elements: 
 
 const creating = () => {
     const createdNode = addTodo();
+    const checkBox = createdNode.children[0].children[0];
     const deleteButton = createdNode.children[2];
     manyLeft(visibleItems);
     deleteButton.addEventListener('click', function() {
-
+        
         visibleItems = [];
         const list = arrayMaker(listItems);
-
+        
         for (const item of list) {
             if (!this.parentElement.isSameNode(item)) visibleItems.push(item);
         }
-
+        
         manyLeft(visibleItems);
         hasVisibleItems();
         this.parentElement.remove();
     });
+    
+    console.log(createdNode)
+
+    // Saving new List Items in the Local Storage:
+
+    localStorage.setItem(`${count}`, JSON.stringify({
+        name: createdNode.children[1].value,
+        checked: checkBox.checked
+    }));
+
+    count += 1;
 }
 
 // The addition of events in HTML elements:
