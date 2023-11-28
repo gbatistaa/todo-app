@@ -130,8 +130,15 @@ const restoreItems = () => {
                 visibleItems = [];
                 const list = arrayMaker(listItems);
                 
+                const inputName = this.parentElement.children[1].value;
+
+                // Operation to calculate how many items are gonna be visible, except the deleted one
+
                 for (const item of list) {
-                    if (!this.parentElement.isSameNode(savedTodo)) visibleItems.push(item);
+                    const itemNameVector = item.children[1].value;
+                    if ((inputName === itemNameVector) === false) {
+                        visibleItems.push(item);
+                    }
                 }
                 
                 manyLeft(visibleItems);
@@ -147,8 +154,6 @@ const restoreItems = () => {
                         const elementString = localStorage[index];
                         const elementObject = JSON.parse(elementString);
                         
-                        //console.log(`${todoName} | ${elementObject.name}`)
-                        
                         if (todoName === elementObject.name) {
                             localStorage.removeItem(index);
                             break
@@ -158,7 +163,6 @@ const restoreItems = () => {
                     }
                     
                 }
-                console.log(localStorage);
                 
             });
             todoList.appendChild(savedTodo);
