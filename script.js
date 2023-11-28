@@ -37,6 +37,7 @@ const arrayMaker = (collection) => {
     }
     return array;
 }
+
 // Function to change estilization of the list management if there is or not elements on the list:
 
 let visibleItems = [];
@@ -103,43 +104,66 @@ manyLeft(listItems);
 const restoreItems = () => {
     
     visibleItems = [];
+    const properties = Object.keys(localStorage).sort((a, b) => a - b);
     
-    for (let index = 0; index < localStorage.length; index++) {
-        const item = localStorage[index];
-        const itemSettings = JSON.parse(item);
-        const savedTodo = templateItem.cloneNode(true);
-        const checkBox = savedTodo.children[0].children[0];
-        
-        savedTodo.id = '';
-        checkBox.addEventListener('click', function () {
-            manyLeft(visibleItems);
-        });
-        
-        savedTodo.children[1].value = itemSettings.name;
-        const deleteButton = savedTodo.children[2];
-        
-        //Function to remove the element of the todo list and the localStorage:
-        
-        deleteButton.addEventListener('click', function() {
-
-            visibleItems = [];
-            const list = arrayMaker(listItems);
+    for (let index = properties[0]; index < properties[properties.length - 1] + 1; index++) {
+        if (localStorage[index] !== undefined) {
+            const item = localStorage[index];
+            const itemSettings = JSON.parse(item);
+            const savedTodo = templateItem.cloneNode(true);
+            const checkBox = savedTodo.children[0].children[0];
             
-            for (const item of list) {
-                if (!this.parentElement.isSameNode(savedTodo)) visibleItems.push(item);
-            }
+            savedTodo.id = '';
+            checkBox.addEventListener('click', function () {
+                manyLeft(visibleItems);
+            });
             
-            manyLeft(visibleItems);
-            hasVisibleItems();
-            this.parentElement.remove();
+            savedTodo.children[1].value = itemSettings.name;
+            const deleteButton = savedTodo.children[2];
             
+            //Function to remove the element of the todo list and the localStorage:
             
-        });
-        todoList.appendChild(savedTodo);
-        visibleItems.push(savedTodo);
+            deleteButton.addEventListener('click', function() {
+    
+                visibleItems = [];
+                const list = arrayMaker(listItems);
+                
+                for (const item of list) {
+                    if (!this.parentElement.isSameNode(savedTodo)) visibleItems.push(item);
+                }
+                
+                manyLeft(visibleItems);
+                hasVisibleItems();
+                this.parentElement.remove();
+                
+                // Operation to remove the todo item from the localStorage:
+    
+                const todoName = itemSettings.name;
+                
+                console.log(localStorage);
+                
+                for (let index = properties[0]; index < properties[properties.length - 1] + 1; index++) {
+                    try {
+                        const elementString = localStorage[index];
+                        const elementObject = JSON.parse(elementString);
+                        
+                        //console.log(`${todoName} | ${elementObject.name}`)
+                        
+                        if (todoName === elementObject.name) {
+                            localStorage.removeItem(index);
+                        }
+                    } catch (error) {
+                        console.log(error);
+                    }
+                    
+                }
+                console.log(localStorage);
+                
+            });
+            todoList.appendChild(savedTodo);
+            visibleItems.push(savedTodo);
+        }
     }
-    
-    console.log(localStorage)
 
     manyLeft(visibleItems);
     hasVisibleItems();
